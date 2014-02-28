@@ -1,0 +1,563 @@
+body{
+	width : 100%;
+	height : 100%;
+	margin : 0;
+	padding : 0;
+}
+//unit - height & width
+$fontFamily: wf_segoe-ui_light, 'Segoe UI Light', 'Segoe WP Light', 'Segoe UI', 'Segoe WP', Tahoma, Arial, sans-serif;
+$height : 85px;
+$width : 85px;
+$countRowBox: 7;
+$paddingContent: $height/4;
+$marginContent: 5px;
+$widthTaskBar: 40px;
+$widthRegion: $countRowBox*$width+$paddingContent*2+$marginContent*2+$marginContent*$countRowBox*2;
+$widthRegionBig: $widthRegion+3*$width;
+$widthBorder: 5px;
+$widthScrollbar: 8px;
+$colorBg: #63707E;
+$colorHead: #32383F;
+$colorHome: #56ABD0;
+$colorBody: #DCDFE2;
+$colorBorder: #397C9D;
+$colorBorderLight: #B5BDC5;
+$colorBorderTop: #00BCF2;
+$colorWhite: #FFFFFF;
+$colorBlack: #333;
+$colorHightlight: #B9D70A;
+$colorBlue: #00BCF2;
+$colorScrollThumb: #63707e;
+$colorControls: #989B9E;
+$timeAnimation: 0.5s;
+$fontSize : 13px;
+$fontSize2x: 22px;
+$fontSizeHeader: 40px;
+$colorDiff: 10%;
+$navPadding: 65px;
+$zindex: 200;
+
+
+::-webkit-scrollbar {
+  width: $widthScrollbar;
+  height: $widthScrollbar;
+  background-color: #DCDFE2;
+}
+::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background:transparent;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+	background:$colorScrollThumb;
+}
+
+body{
+  scrollbar-base-color: #f1f1f8;
+  scrollbar-base-color: #f1f1f8;
+  scrollbar-3dlight-color: #63707e;
+  scrollbar-face-color: #f1f1f8;
+  scrollbar-highlight-color: #63707e;
+  scrollbar-track-color: #f1f1f8;
+  scrollbar-arrow-color: #63707e;
+  scrollbar-shadow-color: #63707e;
+  scrollbar-dark-shadow-color: #63707e;
+}
+
+
+@mixin border{
+
+}
+
+@mixin hover{
+
+}
+
+@mixin font($family : $fontFamily,$size : $fontSize,$weight : normal){
+	font-family:$family;
+	font-size:$size;
+	font-weight:$weight;
+}
+@mixin margin($top:0,$right:0,$bottom:0,$left:0){
+	margin-top:$top;
+	margin-right:$right;
+	margin-bottom:$bottom;
+	margin-left:$left;
+}
+
+@mixin padding($top:0,$right:0,$bottom:0,$left:0){
+	padding-top:$top;
+	padding-right:$right;
+	padding-bottom:$bottom;
+	padding-left:$left;
+}
+
+@mixin hoverScrollbar(){
+	&:hover{
+		&::-webkit-scrollbar-thumb{
+			background:$colorScrollThumb;
+		}
+	}
+}
+
+@mixin border($width:1px,$style:solid,$color: darken($colorBg,$colorDiff),$side:null){
+	@if $side == null{		
+		border:$width $style $color;
+	} @else {
+		border-#{$side}:$width $style $color;
+	}
+}
+
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	border-radius: $radius;
+	background-clip: padding-box;  /* stops bg color from leaking outside the border: */
+}
+
+// Single side border-radius
+
+@mixin border-top-radius($radius) {
+	-webkit-border-top-right-radius: $radius;
+	border-top-right-radius: $radius;
+	-webkit-border-top-left-radius: $radius;
+	border-top-left-radius: $radius;
+	background-clip: padding-box;
+}
+@mixin border-right-radius($radius) {
+	-webkit-border-bottom-right-radius: $radius;
+	border-bottom-right-radius: $radius;
+	-webkit-border-top-right-radius: $radius;
+	border-top-right-radius: $radius;
+	background-clip: padding-box;
+}
+@mixin border-bottom-radius($radius) {
+	-webkit-border-bottom-right-radius: $radius;
+	border-bottom-right-radius: $radius;
+	-webkit-border-bottom-left-radius: $radius;
+	border-bottom-left-radius: $radius;
+	background-clip: padding-box;
+}
+@mixin border-left-radius($radius) {
+	-webkit-border-bottom-left-radius: $radius;
+	border-bottom-left-radius: $radius;
+	-webkit-border-top-left-radius: $radius;
+	border-top-left-radius: $radius;
+	background-clip: padding-box;
+}
+
+@mixin opacity($opacity) {
+	opacity: $opacity;
+	$opacity-ie: $opacity * 100;
+	filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+@mixin text-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+@mixin keyframes($name) {
+  @-o-keyframes $name { @content };
+  @-moz-keyframes $name { @content };
+  @-webkit-keyframes $name { @content }; 
+  @-keyframes $name { @content };
+}
+@mixin animation-name($name...) {
+  -o-animation-name: $name;
+  -moz-animation-name: $name;
+  -webkit-animation-name: $name;
+  animation-name: $name;
+}
+@mixin animation-duration($duration...) {
+  -o-animation-duration: $duration;
+  -moz-animation-duration: $duration;
+  -webkit-animation-duration: $duration;
+  animation-duration: $duration;
+}
+@mixin animation-duration($duration...) {
+  -o-animation-duration: $duration;
+  -moz-animation-duration: $duration;
+  -webkit-animation-duration: $duration;
+  animation-duration: $duration;
+}
+@mixin animation-timing-function($timing...) {
+  -o-animation-timing-function: $timing;
+  -moz-animation-timing-function: $timing;
+  -webkit-animation-timing-function: $timing;
+  animation-timing-function: $timing;
+}
+@mixin animation-iteration-count($count...) {
+  -o-animation-iteration-count: $count;
+  -moz-animation-iteration-count: $count;
+  -webkit-animation-iteration-count: $count;
+  animation-iteration-count: $count;
+}
+@mixin animation-direction($direction...) {
+  -o-animation-direction: $direction;
+  -moz-animation-direction: $direction;
+  -webkit-animation-direction: $direction;
+  animation-direction: $direction;
+}
+@mixin animation-fill-mode($fill...) {
+  -o-animation-fill-mode: $fill;
+  -moz-animation-fill-mode: $fill;
+  -webkit-animation-fill-mode: $fill;
+  animation-fill-mode: $fill;
+}
+@mixin animation-play-state($state...) {
+  -o-animation-play-state: $state;
+  -moz-animation-play-state: $state;
+  -webkit-animation-play-state: $state;
+  animation-play-state: $state;
+}
+@mixin animation($animation...) {
+  -o-animation: $animation;
+  -moz-animation: $animation;
+  -webkit-animation: $animation;
+  animation: $animation;
+}
+
+@mixin controlButton($icon){
+	color: $colorControls;
+	float:left;
+	display: block;
+	@include margin(0,$marginContent,0,$marginContent);
+	background-image: url($icon);
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor:pointer;
+	@include opacity(0.3);
+	width: 25px;
+	height:$height;
+	&:hover{
+		@include opacity(1);
+		@include animation-name(buttonHover);
+		@include animation-duration($timeAnimation);
+	}
+}
+
+.cvf-bar{
+	height:$height;
+}
+.cvf-bar-top{
+	position:fixed;
+	left:0;
+}
+
+.cvf-nav{
+	width:$width;
+	background-color:$colorBg;
+	z-index:$zindex+1;
+	.cvf-nav-bar{
+		background-color:$colorBg;
+		ul{
+			@include margin(0,0,0,0);
+			@include padding(0);
+			li{
+				.cvf-nav-button{
+					width:$width;
+					height:$height;
+					@include border();
+					text-align: center;
+					cursor:pointer;
+					.cvf-nav-button-icon{
+						color:lighten($colorBg,10*$colorDiff);
+						line-height: $height/1.5;
+						@include font(null,$fontSize2x,null);
+					}
+					.cvf-nav-button-text{
+						color:lighten($colorBg,3*$colorDiff);
+					}
+					&:hover,&.active{
+						background-color:darken($colorBg,$colorDiff);
+					}
+				}
+			}
+		}
+		.cvf-nav-top-region{
+			@include font;
+			@include padding($navPadding);
+			position:relative;
+			overflow-y: auto;
+		}
+		.cvf-nav-middle-region{
+			@include font;
+			overflow-y: auto;
+		}
+		.cvf-nav-bottom-region{
+			@include font;
+			position:absolute;
+			bottom:0;
+			ul{
+				li{
+					.cvf-nav-button{
+						background-color:darken($colorBg,2*$colorDiff);
+						color:#FF0000;
+						&:hover{
+							background-color:darken($colorBg,3*$colorDiff);
+						}
+					}
+				}
+			}
+		}
+	}
+	.cvf-nav-panel{
+		position:absolute;
+		top:0;
+		left:$width;
+		height:100%;
+		width:0;
+		background-color:darken($colorBg,$colorDiff);
+		.cvf-nav-panel-heading{
+			width:100%;
+			height:$height;
+			line-height:$height;
+			padding: 0 $paddingContent;
+			h1{
+				@include font($fontFamily,$fontSizeHeader,normal);
+				color: $colorWhite;
+				display: inline-block;
+				@include margin(0,0,0,0);
+				line-height: $height;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				width:100%;
+				float:left;
+				white-space: nowrap;
+			}
+			.cvf-controls{
+				display: none;
+				position:absolute;
+				right:$paddingContent;
+			}
+		}
+		.cvf-nav-panel-body{
+			@extend cvf-nav-panel-heading;
+			@include margin($height,0,0,0);
+			padding:$paddingContent;
+			position:absolute;
+			top:0;
+			bottom:0;
+			left:0;
+			right:0;		
+		}
+	}
+
+	.cvf-nav-panel-zoomin{
+		@include animation-name(navPanelZoomin);
+  		@include animation-duration($timeAnimation);
+		width:5*$width;
+		.cvf-controls{
+  			display: block !important;
+  		}
+	}
+	.cvf-nav-panel-zoomout{		
+		@include animation-name(navPanelZoomout);
+  		@include animation-duration($timeAnimation);
+  		width:0;
+	}
+	
+}
+
+@include keyframes(navPanelZoomin){
+	from{
+		width:0;
+	}
+	to{
+		width:5*$width;
+	}
+}
+@include keyframes(navPanelZoomout){
+	from{
+		width:5*$width;
+	}
+	to{
+		width:0;
+	}
+}
+
+@include keyframes(buttonHover){
+	from{
+		@include opacity(0.3);
+	}
+	to{
+		@include opacity(1);
+	}
+}
+
+.cvf-nav-left{
+	position:fixed;
+	top:0;
+	left:0;
+	bottom:0;
+	.cvf-nav-bar{
+	}
+}
+
+.cvf-content{
+	position:fixed;
+	left:$width;
+	right:0;
+	bottom:0;
+	top:0;
+	overflow:hidden;
+	.cvf-content-panorama{
+		height:100%;
+		display: block;
+		overflow-x:auto;
+		overflow-y:hidden;
+		white-space: nowrap;
+		.cvf-content-home{
+			background-color:$colorHome;
+			height:100%;
+			overflow:hidden;
+			display: inline-block;
+		}
+		.cvf-content-body{
+			height:100%;
+			display: inline-block;
+			overflow: hidden;
+			white-space: nowrap;
+			background-color:$colorBg;
+			@include border($widthBorder,solid,$colorBorder,left);
+			@include border($widthBorder,solid,$colorBorder,right);
+		}		
+		@include hoverScrollbar();
+	}
+}
+
+.cvf-panel{
+	height:100%;
+	position:relative;
+	width:100%;
+	.cvf-panel-heading{
+		width:100%;
+		display: block;
+		background-color:$colorHead;
+		@include padding(0,$paddingContent,0,$paddingContent);
+		h1{
+			@include font($fontFamily,$fontSizeHeader,normal);
+			color: $colorWhite;
+			display: inline-block;
+			@include margin(0,0,0,0);
+			line-height: $height;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+	}
+	.cvf-panel-body{
+		background-color:$colorBody;
+		position:absolute;
+		width: 100%;
+		display: block;
+		top:0;
+		bottom:0;
+		margin-top:$height;
+		@include padding($paddingContent,$paddingContent,$paddingContent,$paddingContent);
+		overflow-y: scroll;
+		-ms-overflow-style: -ms-autohiding-scrollbar;
+		@include hoverScrollbar();
+	}
+}
+
+
+.cvf-controls{
+	float:right;
+	line-height: $height;
+	@include font(null,$fontSize2x);
+	.cvf-controls-maximize{
+		@include controlButton("images/Blade_maximize.png")				
+	}
+	.cvf-controls-restore{
+		@include controlButton("images/Blade_restore.png")
+	}
+	.cvf-controls-minimize{
+
+	}
+	.cvf-controls-close{
+		@include controlButton("images/Blade_close.png")
+	}
+}
+.cvf-layout{
+	position:relative;
+	.cvf-layout-box{
+		width:$width;
+		background-color:$colorWhite;
+		height:$height;
+		display:inline-block;
+		float:left;
+		@include margin($marginContent,$marginContent,$marginContent,$marginContent);
+	}
+	@for $i from 2 to 10 {
+		.cvf-layout-box-col#{$i}{
+			width:$width*$i+$marginContent*($i - 1)*2;
+		}
+
+		.cvf-layout-box-row#{$i}{
+			height:$height*$i+$marginContent*($i - 1)*2;
+		}
+	}
+}
+
+.cvf-region{
+	width:$widthRegion;
+	height:100%;
+	display:inline-block;
+	@include border($widthBorder,solid,$colorBorderTop,top);
+	&::after{
+		display: none;
+	}
+	.cvf-region-title{
+		display:none;
+		width:$widthTaskBar;
+	}
+	.cvf-region-body{
+		display:block;
+		width:100%;
+		height:100%;
+	}
+	.cvf-panel{
+		.cvf-panel-heading,.cvf-panel-body{
+			@include border(2px,solid,$colorBorderLight,right);
+		}
+	}
+
+}
+.cvf-region-home{
+	@include border($widthBorder,solid,$colorBg,top);
+}
+
+.cvf-maximize{
+	width:$widthRegionBig;
+}
+.cvf-minimus{
+	&>*[class$="title"]{
+		display:block;
+	}
+	&>*[class$="body"]{
+		display:none;
+	}
+}
+
+.cvf-loading{
+	&>*[class$="body"] {
+		background-image: url("images/cvf-loading.gif");
+		background-repeat: no-repeat;
+		background-position: center;
+		& *{
+			display:none;
+		}
+	}
+}
+
+
+.color-hightlight{
+	color:$colorHightlight !important;
+}
+
+.color-blue{
+	color:$colorBlue !important;
+}
