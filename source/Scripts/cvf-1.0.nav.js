@@ -15,17 +15,21 @@
         bottom: $('.cvf-nav-bottom-region')
     }
 
-    function openNavPanel(btn) {
+    function openNavPanel(btn, options) {
         var url = btn.attr('data-url'),
-            text = btn.attr('data-text');
+            title = btn.attr('data-title');
         panel.removeClass('cvf-nav-panel-zoomout')
             .addClass('cvf-nav-panel-zoomin')
-            .find('.cvf-nav-panel-heading h1').text(text);
+            .find('.cvf-nav-panel-heading h1').text(title);
         panel.find('.cvf-nav-panel-body').empty();
         if (url) {
-            panel.addClass('cvf-loading').find('.cvf-nav-panel-body').load(url, function () {
+            var element = panel.addClass('cvf-loading').find('.cvf-nav-panel-body');
+            cvf.load(element, url, options, function () {
+                if (options.success) {
+                    options.success.apply(this, arguments);
+                }
                 panel.removeClass('cvf-loading');
-            })
+            });
         }
     }
 
@@ -36,7 +40,7 @@
             .find('.cvf-nav-panel-body').empty();
     }
 
-    function buttonClick() {
+    function buttonClick(options) {
         var t = $(this);
         if (t.hasClass('active')) {
             t.removeClass('active');
@@ -44,9 +48,12 @@
         } else {
             bar.find('.active').removeClass('active');
             t.addClass('active');
-            openNavPanel(t);
+            openNavPanel(t, options);
         }
     }
+
+    nav.close = closeNavPanel;
+    nav.open = openNavPanel;
 
     nav.register = function (item, region) {
         if ($.isArray(item)) {
@@ -66,13 +73,15 @@
                 icon.find('i').addClass(item.icon);
             }
             button.attr('data-url', item.url)
-                .attr('data-text', item.text)
+                .attr('data-title', item.title)
                 .append(icon);
             if (item.showText !== false) {
-                button.append('<div class="cvf-nav-button-text">' + item.text + '</div>');
+                button.append('<div class="cvf-nav-button-title">' + item.title + '</div>');
             }
             region.find('ul').append($('<li/>').append(button));
-            button.click(buttonClick);
+            button.click(function () {
+                buttonClick.call(this, item);
+            });
         }
     }
 

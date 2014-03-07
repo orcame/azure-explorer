@@ -1,0 +1,43 @@
+﻿<div>
+    <div class="dir-path">
+        <%var paths=dir.split('/');%>
+        <%for(var idx=0;idx < paths.length;idx++){%>
+        <%if(paths[idx].trim()){%>
+        <span><%paths[idx]%></span>
+        <%}%>
+        <%}%>
+    </div>
+    <table class="table">
+        <tbody>
+            <%for(var idx=0;idx< directories.length;idx++){%>
+            <tr>
+                <td><i class="fa fa-folder color-folder"></i> <a class="btn btn-link" data-type="directory" data-fullname="<%directories[idx].FullName%>"><%directories[idx].Name%></a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <%}%>
+            <%for(var idx=0;idx< blobs.length;idx++){%>
+            <%var t=getCategory(blobs[idx].Extension);%>
+            <tr class="blobrow" data-blobname="<%blobs[idx].FullName%>">
+                <td><i class="color-<%t.type%> fa <%t.icon%>"></i> <a class="btn btn-link" data-blob="true" data-type="<%t.type%>" data-fullname="<%blobs[idx].FullName%>"><%blobs[idx].Name%></a></td>
+                <td>
+                    <div class="blobtoolbar">
+                        <span class="blobtoolbar-property" title="properties">
+                            <i class="fa fa-wrench"></i>
+                        </span>
+                        <span class="blobtoolbar-metadata" title="metadata">
+                            <i class="fa fa-tasks"></i>
+                        </span>
+                        <span class="blobtoolbar-download" title="download">
+                            <i class="fa fa-cloud-download"></i>
+                        </span>
+                    </div>
+                </td>
+                <td><%blobs[idx].size()%></td>
+                <td><%blobs[idx].Properties.Last_Modified%></td>
+            </tr>
+            <%}%>
+        </tbody>
+    </table>
+</div>

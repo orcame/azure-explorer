@@ -1,0 +1,16 @@
+﻿<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%for(var n in data){%>
+        <tr>
+            <td><%n%></td>
+            <td><input type="text" class="form-control" value="<%data[n]%>" /></td>
+        </tr>
+        <%}%>
+    </tbody>
+</table>

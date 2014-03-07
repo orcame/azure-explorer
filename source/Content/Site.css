@@ -1,33 +1,70 @@
-﻿
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+﻿.dir-path {
+    padding-left: 3px;
+    padding-bottom: 3px;
 }
 
-/* styles for validation helpers */
-.field-validation-error {
-    color: #b94a48;
+    .dir-path span {
+        border: 1px solid #FFF;
+        font-size: 15px;
+        font-weight: normal;
+        color: #5C7A29;
+        cursor: pointer;
+        margin: 3px;
+    }
+
+        .dir-path span::after {
+            content: '/';
+            margin-left: 3px;
+        }
+
+        .dir-path span:last-child::after {
+            content: '';
+        }
+
+        .dir-path span:hover {
+            background-color: #E5F3FB;
+            border-color: #70C0E7;
+        }
+
+        .dir-path span a {
+        }
+
+.container-box {
 }
 
-.field-validation-valid {
-    display: none;
+    .container-box > div {
+        text-align: center;
+    }
+
+    .container-box .container-icon {
+        font-size: 20px;
+        color: #FA8C35;
+        margin-top: 20px;
+    }
+
+    .container-box .container-name {
+        font-size: 23px;
+        text-overflow: ellipsis;
+    }
+
+.blobrow .blobtoolbar {
+    visibility: hidden;
 }
 
-input.input-validation-error {
-    border: 1px solid #b94a48;
-}
 
-input[type="checkbox"].input-validation-error {
-    border: 0 none;
-}
+    .blobrow .blobtoolbar > span {
+        color: #333;
+        margin-left: 5px;
+        opacity: 0.8;
+        cursor: pointer;
+        filter: alpha(opacity=0.8);
+    }
 
-.validation-summary-errors {
-    color: #b94a48;
-}
+        .blobrow .blobtoolbar > span:hover {
+            opacity: 1;
+            filter: alpha(opacity=1);
+        }
 
-.validation-summary-valid {
-    display: none;
+.blobrow:hover .blobtoolbar {
+    visibility: visible;
 }

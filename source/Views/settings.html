@@ -1,0 +1,35 @@
+﻿<form role="form">
+    <div class="form-group">
+        <label for="txtSettingAccount">Account Name</label>
+        <input type="text" class="form-control" id="txtSettingAccount" value="<%settings.accountName%>" placeholder="Your Storage Account Name">
+    </div>
+    <div class="form-group">
+        <label for="txtSettingSharedKey">Shared Key</label>
+        <input type="text" class="form-control" id="txtSettingSharedKey" value="<%settings.sharedKey%>" placeholder="Your Storage Primary/Secondary Shared Key">
+    </div>
+    <div class="form-group">
+        <label for="txtSettingServiceEndpoint">Service Endpoint</label>
+        <select id="txtSettingServiceEndpoint" class="form-control">
+            <%if(settings.endpoint=='core.chinacloudapi.cn'){%>
+            <option selected value="core.chinacloudapi.cn">Azure China(MoonCake)</option>
+            <option value="core.windows.net">Azure Global(WorldWide)</option>
+            <%}else{%>
+            <option value="core.chinacloudapi.cn">Azure China(MoonCake)</option>
+            <option selected value="core.windows.net">Azure Global(WorldWide)</option>
+            <%}%>
+        </select>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-2"></div>
+        <div class="col-sm-8">
+            <div class="text-center text-danger">Or</div>
+        </div>
+        <div class="col-sm-offset-2"></div>
+    </div>
+    <div class="form-group">
+        <label for="txtSettingSharedKey">SAS Url</label>
+        <input type="text" class="form-control" id="txtSettingSharedKey" value="<%settings.containerSas%>" placeholder="The SAS Url of your container">
+        <p class="help-block">Please make sure you input a sas url of your container.</p>
+    </div>
+    <button type="button" id="btnSettings" class="btn btn-primary">Done1</button>
+</form>

@@ -8,19 +8,22 @@ body{
 $fontFamily: wf_segoe-ui_light, 'Segoe UI Light', 'Segoe WP Light', 'Segoe UI', 'Segoe WP', Tahoma, Arial, sans-serif;
 $height : 85px;
 $width : 85px;
-$countRowBox: 7;
+$countRowBox: 8;
 $paddingContent: $height/4;
 $marginContent: 5px;
 $widthTaskBar: 40px;
-$widthRegion: $countRowBox*$width+$paddingContent*2+$marginContent*2+$marginContent*$countRowBox*2;
-$widthRegionBig: $widthRegion+3*$width;
+$widthWindow: $countRowBox*$width+$paddingContent*2+$marginContent*2+$marginContent*$countRowBox*2;
+$widthWindowBig: $widthWindow+3*$width;
+$widthWindowSmall:$widthWindow - 3*$width;
 $widthBorder: 5px;
+$widthBoxBorder: 2px;
 $widthScrollbar: 8px;
 $colorBg: #63707E;
 $colorHead: #32383F;
-$colorHome: #56ABD0;
+$colorHome: #3A8DB6;
 $colorBody: #DCDFE2;
 $colorBorder: #397C9D;
+$colorBoxBorder: #B5BDC5;
 $colorBorderLight: #B5BDC5;
 $colorBorderTop: #00BCF2;
 $colorWhite: #FFFFFF;
@@ -95,10 +98,10 @@ body{
 	padding-left:$left;
 }
 
-@mixin hoverScrollbar(){
+@mixin hoverScrollbar($bgcolor:$colorScrollThumb){
 	&:hover{
 		&::-webkit-scrollbar-thumb{
-			background:$colorScrollThumb;
+			background:$bgcolor;
 		}
 	}
 }
@@ -259,16 +262,15 @@ body{
 			li{
 				.cvf-nav-button{
 					width:$width;
-					height:$height;
-					@include border();
+					height:$height;					
 					text-align: center;
-					cursor:pointer;
+					cursor:pointer; 
 					.cvf-nav-button-icon{
 						color:lighten($colorBg,10*$colorDiff);
 						line-height: $height/1.5;
 						@include font(null,$fontSize2x,null);
 					}
-					.cvf-nav-button-text{
+					.cvf-nav-button-title{
 						color:lighten($colorBg,3*$colorDiff);
 					}
 					&:hover,&.active{
@@ -280,8 +282,13 @@ body{
 		.cvf-nav-top-region{
 			@include font;
 			@include padding($navPadding);
+			min-height: $navPadding+2*$height;
 			position:relative;
 			overflow-y: auto;
+			ul{
+				position:absolute;
+				bottom:0;
+			}
 		}
 		.cvf-nav-middle-region{
 			@include font;
@@ -310,6 +317,7 @@ body{
 		left:$width;
 		height:100%;
 		width:0;
+		overflow-x:hidden;
 		background-color:darken($colorBg,$colorDiff);
 		.cvf-nav-panel-heading{
 			width:100%;
@@ -329,7 +337,6 @@ body{
 				white-space: nowrap;
 			}
 			.cvf-controls{
-				display: none;
 				position:absolute;
 				right:$paddingContent;
 			}
@@ -350,8 +357,8 @@ body{
 		@include animation-name(navPanelZoomin);
   		@include animation-duration($timeAnimation);
 		width:5*$width;
-		.cvf-controls{
-  			display: block !important;
+  		.cvf-nav-panel-heading,.cvf-nav-panel-body{
+  			width: 5*$width;
   		}
 	}
 	.cvf-nav-panel-zoomout{		
@@ -360,32 +367,6 @@ body{
   		width:0;
 	}
 	
-}
-
-@include keyframes(navPanelZoomin){
-	from{
-		width:0;
-	}
-	to{
-		width:5*$width;
-	}
-}
-@include keyframes(navPanelZoomout){
-	from{
-		width:5*$width;
-	}
-	to{
-		width:0;
-	}
-}
-
-@include keyframes(buttonHover){
-	from{
-		@include opacity(0.3);
-	}
-	to{
-		@include opacity(1);
-	}
 }
 
 .cvf-nav-left{
@@ -422,8 +403,13 @@ body{
 			overflow: hidden;
 			white-space: nowrap;
 			background-color:$colorBg;
-			@include border($widthBorder,solid,$colorBorder,left);
-			@include border($widthBorder,solid,$colorBorder,right);
+			@include border($widthBorder,solid,$colorBorderTop,top);
+			.cvf-window:first-child{
+				@include border($widthBorder,solid,$colorBorder,left);
+			}
+			.cvf-window:last-child{
+				@include border($widthBorder,solid,$colorBorder,right);
+			}
 		}		
 		@include hoverScrollbar();
 	}
@@ -449,17 +435,22 @@ body{
 		}
 	}
 	.cvf-panel-body{
-		background-color:$colorBody;
+		background-color:$colorWhite;
 		position:absolute;
 		width: 100%;
 		display: block;
 		top:0;
 		bottom:0;
 		margin-top:$height;
+		overflow:hidden;
 		@include padding($paddingContent,$paddingContent,$paddingContent,$paddingContent);
-		overflow-y: scroll;
 		-ms-overflow-style: -ms-autohiding-scrollbar;
-		@include hoverScrollbar();
+		&:hover{
+			overflow: auto;		
+			&::-webkit-scrollbar-thumb{
+				background:$colorScrollThumb;
+			}
+		}
 	}
 }
 
@@ -481,57 +472,69 @@ body{
 		@include controlButton("images/Blade_close.png")
 	}
 }
-.cvf-layout{
+.cvf-layout{ 
 	position:relative;
-	.cvf-layout-box{
-		width:$width;
-		background-color:$colorWhite;
-		height:$height;
-		display:inline-block;
-		float:left;
-		@include margin($marginContent,$marginContent,$marginContent,$marginContent);
+	width: 100%;
+	height: 100%;
+}
+.cvf-box{
+	width:$width;
+	border:$widthBoxBorder solid $colorWhite;
+	background-color:$colorWhite;
+	height:$height;
+	display:inline-block;
+	float:left;
+	@include margin($marginContent,$marginContent,$marginContent,$marginContent);
+	overflow:hidden;
+	&:hover{
+		border-color: $colorBoxBorder;
+		@include animation-name(boxHover);
+		@include animation-duration($timeAnimation);
 	}
-	@for $i from 2 to 10 {
-		.cvf-layout-box-col#{$i}{
-			width:$width*$i+$marginContent*($i - 1)*2;
-		}
-
-		.cvf-layout-box-row#{$i}{
-			height:$height*$i+$marginContent*($i - 1)*2;
-		}
+}
+@for $i from 2 to 10 {
+	.cvf-box-col#{$i}{
+		width:$width*$i+$marginContent*($i - 1)*2;
+	}
+	.cvf-box-row#{$i}{
+		height:$height*$i+$marginContent*($i - 1)*2;
 	}
 }
 
-.cvf-region{
-	width:$widthRegion;
+.cvf-window{
+	width:$widthWindow;
 	height:100%;
 	display:inline-block;
-	@include border($widthBorder,solid,$colorBorderTop,top);
 	&::after{
 		display: none;
 	}
-	.cvf-region-title{
+	.cvf-window-title{
 		display:none;
 		width:$widthTaskBar;
 	}
-	.cvf-region-body{
+	.cvf-window-content{
 		display:block;
 		width:100%;
 		height:100%;
 	}
-	.cvf-panel{
-		.cvf-panel-heading,.cvf-panel-body{
-			@include border(2px,solid,$colorBorderLight,right);
-		}
+	&:nth-child(n+1){
+		@include border(2px,solid,rgba(143, 156, 168, 0.8),left);
 	}
 
 }
-.cvf-region-home{
+.cvf-window-small{
+	width:$widthWindowSmall;
+}
+.cvf-window-big{
+	width:$widthWindowBig;
+}
+.cvf-window-home{
 	@include border($widthBorder,solid,$colorBg,top);
+	@include border(2px,solid,$colorBorderLight,right);
 }
 
 .cvf-maximize{
-	width:$widthRegionBig;
+	width:$widthWindowBig;
 }
 .cvf-minimus{
 	&>*[class$="title"]{
@@ -548,7 +551,7 @@ body{
 		background-repeat: no-repeat;
 		background-position: center;
 		& *{
-			display:none;
+			@include opacity(0.8);
 		}
 	}
 }
@@ -560,4 +563,69 @@ body{
 
 .color-blue{
 	color:$colorBlue !important;
+}
+
+.color-folder{
+	color:#E6D19D;
+}
+
+.color-video{
+	color: #A94442;
+}
+.color-document{
+	color:#31708F;
+}
+
+.color-picture{
+	color: #8A6D3B;
+}
+.color-other{
+	color: #3C763D;
+}
+.text-center{
+	text-align:center;
+}
+
+.bg-home{
+	background-color: $colorHome !important;
+}
+
+.cursor-pointer{
+	cursor:pointer;
+}
+
+
+@include keyframes(navPanelZoomin){
+	from{
+		width:0;
+	}
+	to{
+		width:5*$width;
+	}
+}
+@include keyframes(navPanelZoomout){
+	from{
+		width:5*$width;
+	}
+	to{
+		width:0;
+	}
+}
+
+@include keyframes(buttonHover){
+	from{
+		@include opacity(0.3);
+	}
+	to{
+		@include opacity(1);
+	}
+}
+
+@include keyframes(boxHover){
+	from{
+		border-color: $colorWhite;
+	}
+	to{
+		border-color: $colorBoxBorder;
+	}
 }
